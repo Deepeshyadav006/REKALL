@@ -20,6 +20,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.ENV = {
+                NEXT_PUBLIC_SUPABASE_URL: '${process.env.NEXT_PUBLIC_SUPABASE_URL || ''}',
+                NEXT_PUBLIC_SUPABASE_ANON_KEY: '${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''}'
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );
