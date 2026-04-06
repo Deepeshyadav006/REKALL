@@ -16,18 +16,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              window.ENV = {
-                NEXT_PUBLIC_SUPABASE_URL: '${process.env.NEXT_PUBLIC_SUPABASE_URL || ''}',
-                NEXT_PUBLIC_SUPABASE_ANON_KEY: '${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''}'
-              }
-            `,
+            __html: `window.ENV = ${JSON.stringify({
+              NEXT_PUBLIC_SUPABASE_URL: supabaseUrl,
+              NEXT_PUBLIC_SUPABASE_ANON_KEY: supabaseKey
+            })};`,
           }}
         />
       </body>
