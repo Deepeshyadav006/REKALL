@@ -6,7 +6,10 @@ interface ChatMessage {
 }
 
 async function callAI(messages: ChatMessage[]): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY!
+  const apiKey = process.env.GROQ_API_KEY || ''
+  if (!apiKey) {
+    throw new Error('GROQ_API_KEY is not configured')
+  }
   const modelName = 'llama-3.1-8b-instant'
   console.log('Groq API key exists:', !!process.env.GROQ_API_KEY)
   console.log('Fetching from Groq...')
