@@ -1,15 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Home, MessageSquare, PenSquare, Clock, LogOut, Sparkles } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Home, MessageSquare, Clock, LogOut, Sparkles } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const navItems = [
-  { href: '/home', icon: Home, label: 'Home' },
+  { href: '/dashboard', icon: Home, label: 'Dashboard' },
   { href: '/chat', icon: MessageSquare, label: 'Chat' },
-  { href: '/create', icon: PenSquare, label: 'Create' },
   { href: '/history', icon: Clock, label: 'History' },
 ]
 
@@ -17,6 +16,17 @@ export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [userEmail, setUserEmail] = useState('')
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user?.email) {
+        setUserEmail(user.email)
+      }
+    }
+    getUser()
+  }, [supabase])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -102,6 +112,13 @@ export default function Sidebar() {
           )
         })}
       </nav>
+
+      {/* User email */}
+      {userEmail && (
+        <p style={{ color: 'var(--color-text-muted)', fontSize: '12px', marginBottom: '12px', padding: '0 8px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {userEmail}
+        </p>
+      )}
 
       {/* Logout */}
       <button

@@ -29,7 +29,7 @@ export async function proxy(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   // Protect routes that require authentication
-  const protectedRoutes = ['/home', '/chat', '/create', '/history']
+  const protectedRoutes = ['/dashboard', '/chat', '/create', '/history']
   const isProtectedRoute = protectedRoutes.some(route =>
     request.nextUrl.pathname.startsWith(route)
   )
@@ -43,7 +43,7 @@ export async function proxy(request: NextRequest) {
   // Redirect logged-in users away from login page
   if (request.nextUrl.pathname === '/login' && user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/home'
+    url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 

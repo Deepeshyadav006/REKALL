@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Sparkles, TrendingUp, MessageSquare, PenSquare } from 'lucide-react'
 
 const stats = [
@@ -61,7 +62,7 @@ export default function HomeDashboard({ firstName }: { firstName: string }) {
           Quick Actions
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-          <a href="/create" style={{ textDecoration: 'none' }}>
+          <Link href="/dashboard" style={{ textDecoration: 'none' }}>
             <div
               style={{
                 padding: '20px',
@@ -78,8 +79,8 @@ export default function HomeDashboard({ firstName }: { firstName: string }) {
               <p style={{ margin: 0, fontWeight: '600', color: 'var(--color-text-primary)', fontSize: '15px' }}>Create Post</p>
               <p style={{ margin: '4px 0 0', color: 'var(--color-text-muted)', fontSize: '13px' }}>Generate AI-powered content</p>
             </div>
-          </a>
-          <a href="/chat" style={{ textDecoration: 'none' }}>
+          </Link>
+          <Link href="/chat" style={{ textDecoration: 'none' }}>
             <div
               style={{
                 padding: '20px',
@@ -96,7 +97,7 @@ export default function HomeDashboard({ firstName }: { firstName: string }) {
               <p style={{ margin: 0, fontWeight: '600', color: 'var(--color-text-primary)', fontSize: '15px' }}>AI Chat</p>
               <p style={{ margin: '4px 0 0', color: 'var(--color-text-muted)', fontSize: '13px' }}>Get strategy advice</p>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

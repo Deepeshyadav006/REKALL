@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Clock, FileText, MessageSquare } from 'lucide-react'
 
 export const metadata = {
@@ -46,9 +47,9 @@ export default function HistoryPage() {
         <p style={{ color: 'var(--color-text-secondary)', margin: 0, maxWidth: '360px', lineHeight: '1.6' }}>
           Your generated posts and AI chat sessions will appear here once you start using Rekall.
         </p>
-        <a href="/create" className="btn-primary" style={{ marginTop: '8px', textDecoration: 'none', padding: '10px 24px', display: 'inline-block' }}>
+        <Link href="/dashboard" className="btn-primary" style={{ marginTop: '8px', textDecoration: 'none', padding: '10px 24px', display: 'inline-block' }}>
           Create your first post →
-        </a>
+        </Link>
       </div>
     </div>
   )

@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server'
 import { generateContent } from '@/lib/gemini'
 import { createClient } from '@/lib/supabase/server'
 
+const platformPrompts: Record<string, string> = {
+  linkedin: "Write a professional LinkedIn post about [topic]. Use a hook in the first line. Add 3-5 relevant hashtags. Maximum 3000 characters.",
+  twitter: "Write an engaging tweet about [topic]. Maximum 280 characters. No hashtags unless essential.",
+  instagram: "Write an Instagram caption about [topic]. Engaging opener, storytelling middle, call to action end. Add 10 relevant hashtags at the bottom.",
+  youtube: "Write a YouTube video description about [topic]. Include timestamps placeholder, links section, and relevant tags. Maximum 5000 characters.",
+}
+
 export async function POST(req: Request) {
   try {
     const supabase = await createClient()
@@ -10,32 +17,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { topic, platform, tone } = await req.json()
+    const { topic, platform, tone, context, imageDesc } = await req.json()
 
-    const platformGuide: Record<string, string> = {
-      twitter: 'Twitter/X (max 280 characters, punchy and engaging, use 2-3 relevant hashtags)',
-      instagram: 'Instagram (engaging caption with emojis, 5-10 hashtags at the end, storytelling approach)',
-      linkedin: 'LinkedIn (professional, insightful, longer form is fine, include a call to action, 3-5 hashtags)',
-      facebook: 'Facebook (conversational, can be longer, encourage comments, 2-3 hashtags)',
+    if (!platform || !platformPrompts[platform]) {
+      return NextResponse.json({ error: 'Invalid platform' }, { status: 400 })
     }
 
-    const prompt = `You are an expert social media copywriter. Write a ${tone.toLowerCase()} social media post for ${platformGuide[platform] || platform}.
+    const basePrompt = platformPrompts[platform]
+    let prompt = basePrompt.replace('[topic]', topic)
 
-Topic/Idea: ${topic}
+    if (tone) {
+      prompt = `Write with a ${tone.toLowerCase()} tone. ${prompt}`
+    }
 
-Guidelines:
-- Match the platform's character/style requirements exactly
-- Use the ${tone} tone throughout
-- Make it engaging and likely to get high engagement
-- Include appropriate emojis if relevant to the platform and tone
-- Only provide the post content, no extra explanation
+    if (context) {
+      prompt = `Additional context: ${context}. ${prompt}`
+    }
 
-Write the post now:`
+    if (imageDesc) {
+      prompt = `The user has also provided an image showing: ${imageDesc}. ${prompt}`
+    }
 
     const content = await generateContent(prompt)
     const finalContent = content.trim()
 
-    // Save to posts table
     await supabase.from('posts').insert({
       user_id: user.id,
       platform,

@@ -1,15 +1,17 @@
 import { createClient } from '@/lib/supabase/server'
 
-/**
- * Common fetch call to DeepSeek.
- */
-async function callAI(messages: any[]): Promise<string> {
-  const apiKey = process.env.DEEPSEEK_API_KEY!
-  const modelName = 'deepseek-chat'
-  console.log('DeepSeek API key exists:', !!process.env.DEEPSEEK_API_KEY)
-  console.log('Fetching from DeepSeek...')
+interface ChatMessage {
+  role: string
+  content: string
+}
+
+async function callAI(messages: ChatMessage[]): Promise<string> {
+  const apiKey = process.env.GROQ_API_KEY!
+  const modelName = 'llama-3.1-8b-instant'
+  console.log('Groq API key exists:', !!process.env.GROQ_API_KEY)
+  console.log('Fetching from Groq...')
   
-  const response = await fetch('https://api.deepseek.com/chat/completions', {
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
@@ -21,16 +23,16 @@ async function callAI(messages: any[]): Promise<string> {
     }),
   })
 
-  console.log('DeepSeek status:', response.status)
+  console.log('Groq status:', response.status)
 
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({ error: 'Unknown API error' }))
-    console.error('DeepSeek Error:', errorBody)
-    throw new Error(`DeepSeek API error: ${response.status} ${response.statusText}`)
+    console.error('Groq Error:', errorBody)
+    throw new Error(`Groq API error: ${response.status} ${response.statusText}`)
   }
 
   const data = await response.json()
-  console.log('DeepSeek data:', JSON.stringify(data))
+  console.log('Groq data:', JSON.stringify(data))
   return data.choices[0].message.content
 }
 
@@ -66,9 +68,13 @@ Recent User Posts: ${recentPosts}
 Goal: Answer the user concisely and creatively. Be helpful and actionable.`
 
   // Build message history for OpenRouter / DeepSeek
-  const messages = [
+  interface MemoryRow {
+    role: string
+    message: string
+  }
+  const messages: ChatMessage[] = [
     { role: 'system', content: systemPrompt },
-    ...(memoryRows?.map((m: any) => ({
+    ...(memoryRows?.map((m: MemoryRow) => ({
       role: m.role === 'assistant' ? 'assistant' : 'user',
       content: m.message,
     })) || []),
