@@ -11,8 +11,6 @@ async function callAI(messages: ChatMessage[]): Promise<string> {
     throw new Error('GROQ_API_KEY is not configured')
   }
   const modelName = 'llama-3.1-8b-instant'
-  console.log('Groq API key exists:', !!process.env.GROQ_API_KEY)
-  console.log('Fetching from Groq...')
   
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -26,16 +24,11 @@ async function callAI(messages: ChatMessage[]): Promise<string> {
     }),
   })
 
-  console.log('Groq status:', response.status)
-
   if (!response.ok) {
-    const errorBody = await response.json().catch(() => ({ error: 'Unknown API error' }))
-    console.error('Groq Error:', errorBody)
-    throw new Error(`Groq API error: ${response.status} ${response.statusText}`)
+    throw new Error('Groq API error: ' + response.status)
   }
 
   const data = await response.json()
-  console.log('Groq data:', JSON.stringify(data))
   return data.choices[0].message.content
 }
 
@@ -62,13 +55,7 @@ export async function askRekall(userMessage: string, userId: string): Promise<st
     .order('created_at', { ascending: false })
     .limit(5)
 
-  const recentPosts = postRows?.length ? JSON.stringify(postRows, null, 2) : "No recent posts."
-  
-  const systemPrompt = `You are Rekall, an AI-powered social media assistant.
-I remember the user's past posts and our ongoing conversation.
-Context:
-Recent User Posts: ${recentPosts}
-Goal: Answer the user concisely and creatively. Be helpful and actionable.`
+  const systemPrompt = 'You are Rekall, an AI-powered social media assistant. Answer user questions concisely and helpfully.'
 
   // Build message history for OpenRouter / DeepSeek
   interface MemoryRow {
