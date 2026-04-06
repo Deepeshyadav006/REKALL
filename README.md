@@ -16,4 +16,4 @@ pnpm dev
 bun dev
 ```
 
-Open https://rekalll.netlify.app/dashboard with your browser to see the result.
+Open https://vrixo.netlify.app/dashboard with your browser to see the result.

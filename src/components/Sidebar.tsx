@@ -58,22 +58,19 @@ export default function Sidebar() {
               width: '36px',
               height: '36px',
               borderRadius: '10px',
-              background: 'linear-gradient(135deg, #7c3aed, #06b6d4)',
+              background: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Sparkles size={18} color="white" />
+            <Sparkles size={18} color="#0c0c0c" />
           </div>
           <span
             style={{
               fontSize: '20px',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, #7c3aed, #06b6d4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              fontWeight: '600',
+              color: '#ffffff',
             }}
           >
             Vrixo
@@ -96,14 +93,11 @@ export default function Sidebar() {
                 padding: '11px 16px',
                 borderRadius: '10px',
                 textDecoration: 'none',
-                color: isActive ? 'white' : 'var(--color-text-secondary)',
-                background: isActive
-                  ? 'linear-gradient(135deg, rgba(124,58,237,0.9), rgba(91,33,182,0.9))'
-                  : 'transparent',
-                fontWeight: isActive ? '600' : '500',
+                color: isActive ? '#ffffff' : 'var(--color-text-secondary)',
+                background: isActive ? 'rgba(255,255,255,0.08)' : 'transparent',
+                fontWeight: isActive ? '500' : '400',
                 fontSize: '14px',
                 transition: 'all 0.2s ease',
-                boxShadow: isActive ? '0 4px 16px rgba(124,58,237,0.3)' : 'none',
               }}
             >
               <Icon size={18} />

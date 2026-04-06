@@ -1,25 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand colors */
-  --color-brand-primary: #7c3aed;
-  --color-brand-secondary: #a78bfa;
-  --color-brand-accent: #06b6d4;
+  --color-bg-base: #0c0c0c;
+  --color-bg-surface: #141414;
+  --color-bg-elevated: #1a1a1a;
+  --color-bg-glass: rgba(255, 255, 255, 0.02);
 
-  /* Backgrounds */
-  --color-bg-base: #0a0a0f;
-  --color-bg-surface: #111118;
-  --color-bg-elevated: #1a1a24;
-  --color-bg-glass: rgba(255, 255, 255, 0.04);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted: #5a5a5a;
 
-  /* Text */
-  --color-text-primary: #f0f0ff;
-  --color-text-secondary: #a0a0c0;
-  --color-text-muted: #5a5a7a;
+  --color-border: #1f1f1f;
+  --color-border-accent: #2f2f2f;
 
-  /* Borders */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-accent: rgba(124, 58, 237, 0.4);
+  --color-accent: #a8ff78;
 }
 
 * {
@@ -35,7 +29,6 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -43,56 +36,37 @@ body {
   background: var(--color-bg-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand-primary);
+  background: var(--color-border);
   border-radius: 3px;
 }
 
-/* Glassmorphism card */
-.glass-card {
-  background: var(--color-bg-glass);
+.card {
+  background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #7c3aed, #06b6d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glow effect */
-.glow-purple {
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-}
-
-/* Button base */
 .btn-primary {
-  background: linear-gradient(135deg, #7c3aed, #5b21b6);
-  color: white;
+  background: #f0f0f0;
+  color: #0c0c0c;
   border: none;
-  border-radius: 10px;
+  border-radius: 9999px;
   padding: 10px 20px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
 }
 .btn-primary:hover {
+  background: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
-}
-.btn-primary:active {
-  transform: translateY(0);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 9999px;
   padding: 10px 20px;
   font-weight: 500;
   cursor: pointer;
@@ -100,16 +74,15 @@ body {
   font-family: inherit;
 }
 .btn-ghost:hover {
-  border-color: var(--color-brand-primary);
+  border-color: var(--color-text-secondary);
   color: var(--color-text-primary);
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-/* Input */
 .input-field {
-  background: var(--color-bg-elevated);
+  background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 12px 16px;
   color: var(--color-text-primary);
   font-family: inherit;
@@ -119,14 +92,12 @@ body {
   transition: border-color 0.2s ease;
 }
 .input-field:focus {
-  border-color: var(--color-brand-primary);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+  border-color: var(--color-border-accent);
 }
 .input-field::placeholder {
   color: var(--color-text-muted);
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -137,21 +108,7 @@ body {
     transform: translateY(0);
   }
 }
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.5); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
 
 .animate-fade-up {
   animation: fadeInUp 0.5s ease forwards;
-}
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-.animate-float {
-  animation: float 4s ease-in-out infinite;
 }

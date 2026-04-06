@@ -140,43 +140,43 @@ export default function PlatformPage() {
   }
 
   if (!config) {
-    return <div style={{ minHeight: '100vh', background: '#0a0a0a', padding: '32px', color: 'white' }}>Invalid platform</div>
+    return <div style={{ minHeight: '100vh', background: '#0c0c0c', padding: '32px', color: 'white' }}>Invalid platform</div>
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 24px', borderBottom: '1px solid #222' }}>
-        <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: '14px' }}>← Back</button>
-        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: config.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <config.icon size={20} color="white" />
+    <div style={{ minHeight: '100vh', background: '#0c0c0c', display: 'flex', flexDirection: 'column' }}>
+      <header style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 24px', borderBottom: '1px solid #1f1f1f' }}>
+        <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', color: '#5a5a5a', cursor: 'pointer', fontSize: '14px' }}>← Back</button>
+        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <config.icon size={20} color="#0c0c0c" />
         </div>
-        <h1 style={{ color: 'white', fontSize: '20px', fontWeight: '600', margin: 0 }}>{config.name}</h1>
+        <h1 style={{ color: 'white', fontSize: '20px', fontWeight: '500', margin: 0 }}>{config.name}</h1>
       </header>
 
       <div style={{ display: 'flex', flex: 1, gap: '24px', padding: '24px' }}>
         <div style={{ flex: '0.6', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ background: '#111', borderRadius: '16px', padding: '24px' }}>
-            <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '600', margin: '0 0 20px' }}>AI Content Generator</h2>
+          <div style={{ background: '#141414', borderRadius: '16px', padding: '24px', border: '1px solid #1f1f1f' }}>
+            <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '500', margin: '0 0 20px' }}>AI Content Generator</h2>
             
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#888', fontSize: '14px', display: 'block', marginBottom: '8px' }}>What do you want to post about?</label>
+              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>What do you want to post about?</label>
               <input
                 type="text"
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
                 placeholder="Enter your topic..."
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #333', background: '#0a0a0a', color: 'white', fontSize: '15px', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', boxSizing: 'border-box' }}
               />
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#888', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Tone</label>
+              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Tone</label>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {tones.map(t => (
                   <button
                     key={t}
                     onClick={() => setTone(t)}
-                    style={{ padding: '8px 16px', borderRadius: '8px', border: tone === t ? '1px solid #7c3aed' : '1px solid #333', background: tone === t ? '#7c3aed' : 'transparent', color: tone === t ? 'white' : '#888', fontSize: '14px', cursor: 'pointer' }}
+                    style={{ padding: '8px 16px', borderRadius: '9999px', border: tone === t ? '1px solid #ffffff' : '1px solid #1f1f1f', background: tone === t ? '#ffffff' : 'transparent', color: tone === t ? '#0c0c0c' : '#5a5a5a', fontSize: '14px', cursor: 'pointer' }}
                   >
                     {t}
                   </button>
@@ -185,19 +185,19 @@ export default function PlatformPage() {
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#888', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Additional context (optional)</label>
+              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Additional context (optional)</label>
               <textarea
                 value={context}
                 onChange={e => setContext(e.target.value)}
                 placeholder="Any additional details..."
                 rows={3}
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #333', background: '#0a0a0a', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
               />
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <label style={{ color: '#888', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Upload image (optional)</label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', borderRadius: '8px', border: '1px dashed #333', color: '#666', cursor: 'pointer' }}>
+              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Upload image (optional)</label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', borderRadius: '8px', border: '1px dashed #1f1f1f', color: '#5a5a5a', cursor: 'pointer' }}>
                 <Upload size={18} />
                 <span>Upload image (jpg, png, gif)</span>
                 <input type="file" accept="image/jpeg,image/png,image/gif" onChange={handleImageUpload} style={{ display: 'none' }} />
@@ -205,7 +205,7 @@ export default function PlatformPage() {
               {imagePreview && (
                 <div style={{ marginTop: '12px', position: 'relative', display: 'inline-block' }}>
                   <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', borderRadius: '8px' }} />
-                  <button onClick={() => { setImagePreview(null); setImageDesc('') }} style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#333', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer' }}>×</button>
+                  <button onClick={() => { setImagePreview(null); setImageDesc('') }} style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#1f1f1f', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer' }}>×</button>
                 </div>
               )}
             </div>
@@ -213,7 +213,7 @@ export default function PlatformPage() {
             <button
               onClick={generateContent}
               disabled={loading || !topic.trim()}
-              style={{ width: '100%', padding: '14px', borderRadius: '8px', border: 'none', background: '#7c3aed', color: 'white', fontSize: '15px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              style={{ width: '100%', padding: '14px', borderRadius: '9999px', border: 'none', background: '#f0f0f0', color: '#0c0c0c', fontSize: '15px', fontWeight: '500', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
               {loading && <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} />}
               Generate
@@ -221,10 +221,10 @@ export default function PlatformPage() {
           </div>
 
           {content && (
-            <div style={{ background: '#111', borderRadius: '16px', padding: '24px' }}>
+            <div style={{ background: '#141414', borderRadius: '16px', padding: '24px', border: '1px solid #1f1f1f' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <label style={{ color: '#888', fontSize: '14px' }}>Generated Content ({content.length}/{config.charLimit})</label>
-                <button onClick={copyContent} style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px' }}>
+                <label style={{ color: '#5a5a5a', fontSize: '14px' }}>Generated Content ({content.length}/{config.charLimit})</label>
+                <button onClick={copyContent} style={{ background: 'none', border: 'none', color: '#5a5a5a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px' }}>
                   {copied ? <Check size={14} /> : <Copy size={14} />}
                   {copied ? 'Copied!' : 'Copy'}
                 </button>
@@ -233,13 +233,13 @@ export default function PlatformPage() {
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 rows={6}
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #333', background: '#0a0a0a', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
               />
               <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
-                <button onClick={savePost} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid #333', background: 'transparent', color: 'white', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
+                <button onClick={savePost} style={{ flex: 1, padding: '12px', borderRadius: '9999px', border: '1px solid #1f1f1f', background: 'transparent', color: 'white', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>
                   Save Post
                 </button>
-                <button onClick={publishPost} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none', background: config.color, color: 'white', fontSize: '14px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <button onClick={publishPost} style={{ flex: 1, padding: '12px', borderRadius: '9999px', border: 'none', background: '#ffffff', color: '#0c0c0c', fontSize: '14px', fontWeight: '500', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                   <ExternalLink size={16} /> Publish to {config.name}
                 </button>
               </div>
@@ -247,17 +247,17 @@ export default function PlatformPage() {
           )}
         </div>
 
-        <div style={{ flex: '0.4', background: '#111', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column' }}>
-          <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '600', margin: '0 0 16px' }}>AI Chatbot</h2>
+        <div style={{ flex: '0.4', background: '#141414', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', border: '1px solid #1f1f1f' }}>
+          <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '500', margin: '0 0 16px' }}>AI Chatbot</h2>
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {chatMessages.map((msg, i) => (
-              <div key={i} style={{ padding: '12px', borderRadius: '12px', background: msg.role === 'user' ? '#222' : '#0a0a0a', alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '80%' }}>
+              <div key={i} style={{ padding: '12px', borderRadius: '12px', background: msg.role === 'user' ? '#1f1f1f' : '#0c0c0c', alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '80%' }}>
                 <p style={{ color: 'white', fontSize: '14px', margin: 0 }}>{msg.content}</p>
               </div>
             ))}
             {chatLoading && (
-              <div style={{ padding: '12px', borderRadius: '12px', background: '#0a0a0a', alignSelf: 'flex-start' }}>
-                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite', color: '#666' }} />
+              <div style={{ padding: '12px', borderRadius: '12px', background: '#0c0c0c', alignSelf: 'flex-start' }}>
+                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite', color: '#5a5a5a' }} />
               </div>
             )}
             <div ref={chatEndRef} />
@@ -269,9 +269,9 @@ export default function PlatformPage() {
               onChange={e => setChatInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && sendChat()}
               placeholder="Ask about your content..."
-              style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid #333', background: '#0a0a0a', color: 'white', fontSize: '14px' }}
+              style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '14px' }}
             />
-            <button onClick={sendChat} disabled={chatLoading || !chatInput.trim()} style={{ padding: '12px', borderRadius: '8px', border: 'none', background: '#7c3aed', color: 'white', cursor: 'pointer' }}>
+            <button onClick={sendChat} disabled={chatLoading || !chatInput.trim()} style={{ padding: '12px', borderRadius: '9999px', border: 'none', background: '#f0f0f0', color: '#0c0c0c', cursor: 'pointer' }}>
               <Send size={18} />
             </button>
           </div>

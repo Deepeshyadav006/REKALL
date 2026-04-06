@@ -48,17 +48,17 @@ export default function CreatePage() {
   return (
     <div style={{ maxWidth: '780px', margin: '0 auto' }}>
       <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '800', margin: '0 0 8px' }}>
-          <span className="gradient-text">Create Content</span>
+        <h1 style={{ fontSize: '56px', fontWeight: '300', margin: '0 0 8px', letterSpacing: '-0.03em' }}>
+          Create
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)', margin: 0 }}>
+        <p style={{ color: '#5a5a5a', margin: 0 }}>
           Generate AI-crafted social media posts in seconds.
         </p>
       </div>
 
-      <div className="glass-card" style={{ borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
+      <div className="card" style={{ borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
         {/* Platform selector */}
-        <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: 'var(--color-text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: '#5a5a5a', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           Platform
         </label>
         <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
@@ -71,11 +71,11 @@ export default function CreatePage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '9px 16px',
-                borderRadius: '10px',
-                border: `1px solid ${platform === p.id ? p.color : 'var(--color-border)'}`,
-                background: platform === p.id ? `${p.color}18` : 'transparent',
-                color: platform === p.id ? p.color : 'var(--color-text-secondary)',
-                fontWeight: platform === p.id ? '600' : '500',
+                borderRadius: '9999px',
+                border: `1px solid ${platform === p.id ? '#ffffff' : '#1f1f1f'}`,
+                background: platform === p.id ? '#ffffff' : 'transparent',
+                color: platform === p.id ? '#0c0c0c' : '#5a5a5a',
+                fontWeight: platform === p.id ? '500' : '400',
                 fontSize: '14px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
@@ -89,7 +89,7 @@ export default function CreatePage() {
         </div>
 
         {/* Tone */}
-        <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: 'var(--color-text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: '#5a5a5a', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           Tone
         </label>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
@@ -99,11 +99,11 @@ export default function CreatePage() {
               onClick={() => setTone(t)}
               style={{
                 padding: '7px 14px',
-                borderRadius: '8px',
-                border: `1px solid ${tone === t ? 'var(--color-brand-primary)' : 'var(--color-border)'}`,
-                background: tone === t ? 'rgba(124,58,237,0.15)' : 'transparent',
-                color: tone === t ? 'var(--color-brand-secondary)' : 'var(--color-text-secondary)',
-                fontWeight: tone === t ? '600' : '500',
+                borderRadius: '9999px',
+                border: `1px solid ${tone === t ? '#ffffff' : '#1f1f1f'}`,
+                background: tone === t ? '#ffffff' : 'transparent',
+                color: tone === t ? '#0c0c0c' : '#5a5a5a',
+                fontWeight: tone === t ? '500' : '400',
                 fontSize: '13px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
@@ -116,7 +116,7 @@ export default function CreatePage() {
         </div>
 
         {/* Topic */}
-        <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: 'var(--color-text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: '#5a5a5a', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           Topic / Idea
         </label>
         <textarea
@@ -136,15 +136,15 @@ export default function CreatePage() {
 
       {/* Result */}
       {result && (
-        <div className="glass-card animate-fade-up" style={{ borderRadius: '16px', padding: '24px' }}>
+        <div className="card animate-fade-up" style={{ borderRadius: '16px', padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-            <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--color-text-secondary)' }}>Generated Post</span>
+            <span style={{ fontSize: '14px', fontWeight: '500', color: '#5a5a5a' }}>Generated Post</span>
             <button className="btn-ghost" onClick={copy} style={{ padding: '7px 14px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
-              {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
+              {copied ? <Check size={14} color="#a8ff78" /> : <Copy size={14} />}
               {copied ? 'Copied!' : 'Copy'}
             </button>
           </div>
-          <p style={{ margin: 0, lineHeight: '1.7', whiteSpace: 'pre-wrap', color: 'var(--color-text-primary)', fontSize: '15px' }}>
+          <p style={{ margin: 0, lineHeight: '1.7', whiteSpace: 'pre-wrap', color: '#ffffff', fontSize: '15px' }}>
             {result}
           </p>
         </div>
