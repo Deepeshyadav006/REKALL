@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
-import { Briefcase, MessageCircle, Camera, Video, Loader2, Send, Upload, Copy, Check, ExternalLink, LucideIcon } from 'lucide-react'
+import { Briefcase, MessageCircle, Camera, Video, Wand2, Send, Loader2, LucideIcon } from 'lucide-react'
 
 const platformConfig: Record<string, { name: string; color: string; icon: LucideIcon; charLimit: number }> = {
   linkedin: { name: 'LinkedIn', color: '#0077b5', icon: Briefcase, charLimit: 3000 },
-  twitter: { name: 'Twitter / X', color: '#000000', icon: MessageCircle, charLimit: 280 },
+  twitter: { name: 'Twitter', color: '#ffffff', icon: MessageCircle, charLimit: 280 },
   instagram: { name: 'Instagram', color: '#e1306c', icon: Camera, charLimit: 2200 },
   youtube: { name: 'YouTube', color: '#ff0000', icon: Video, charLimit: 5000 },
 }
@@ -24,12 +24,10 @@ export default function PlatformPage() {
   const [userId, setUserId] = useState('')
   const [topic, setTopic] = useState('')
   const [tone, setTone] = useState('Professional')
-  const [context, setContext] = useState('')
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [imageDesc, setImageDesc] = useState('')
+  const [showContent, setShowContent] = useState(false)
+  const [toast, setToast] = useState('')
   
   const [chatMessages, setChatMessages] = useState<{ role: string; content: string }[]>([])
   const [chatInput, setChatInput] = useState('')
@@ -49,6 +47,16 @@ export default function PlatformPage() {
   }, [supabase, router])
 
   useEffect(() => {
+    if (config) {
+      if (chatMessages.length === 0) {
+        setChatMessages([
+          { role: 'assistant', content: `Hi! I'm here to help with your ${config.name} content. What would you like to create?` }
+        ])
+      }
+    }
+  }, [config, chatMessages.length])
+
+  useEffect(() => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
@@ -57,15 +65,17 @@ export default function PlatformPage() {
   const generateContent = async () => {
     if (!topic.trim() || loading) return
     setLoading(true)
+    setShowContent(false)
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform, tone, context, imageDesc }),
+        body: JSON.stringify({ topic, platform, tone }),
       })
       const data = await res.json()
       if (data.content) {
         setContent(data.content)
+        setShowContent(true)
       }
     } catch (err) {
       console.error(err)
@@ -77,43 +87,29 @@ export default function PlatformPage() {
   const savePost = async () => {
     if (!content.trim() || !userId) return
     await supabase.from('posts').insert({ user_id: userId, platform, content })
-    alert('Post saved!')
+    setToast('Post saved!')
+    setTimeout(() => setToast(''), 3000)
   }
 
-  const publishPost = () => {
+  const postToPlatform = () => {
     const encoded = encodeURIComponent(content)
     if (platform === 'linkedin') {
-      window.open(`https://www.linkedin.com/sharing/share-offsite/?text=${encoded}`, '_blank')
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encoded}`, '_blank')
     } else if (platform === 'twitter') {
       window.open(`https://twitter.com/intent/tweet?text=${encoded}`, '_blank')
     } else if (platform === 'instagram') {
       navigator.clipboard.writeText(content)
-      alert('Text copied! Open Instagram and paste.')
+      setToast('Copied! Open Instagram and paste your caption')
+      setTimeout(() => setToast(''), 3000)
     } else if (platform === 'youtube') {
       navigator.clipboard.writeText(content)
-      alert('Description copied! Open YouTube Studio.')
+      setToast('Copied! Open YouTube Studio and paste your description')
+      setTimeout(() => setToast(''), 3000)
     }
-  }
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      setImagePreview(reader.result as string)
-      setImageDesc('Image uploaded by user')
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const copyContent = () => {
-    navigator.clipboard.writeText(content)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
   }
 
   const sendChat = async () => {
-    if (!chatInput.trim() || chatLoading) return
+    if (!chatInput.trim() || chatLoading || !userId) return
     const userMsg = chatInput
     setChatInput('')
     setChatMessages(prev => [...prev, { role: 'user', content: userMsg }])
@@ -124,8 +120,9 @@ export default function PlatformPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          userMessage: `User is creating content for ${config.name}. ${userMsg}`, 
-          userId 
+          userMessage: userMsg,
+          userId,
+          platform
         }),
       })
       const data = await res.json()
@@ -140,43 +137,71 @@ export default function PlatformPage() {
   }
 
   if (!config) {
-    return <div style={{ minHeight: '100vh', background: '#0c0c0c', padding: '32px', color: 'white' }}>Invalid platform</div>
+    return <div style={{ minHeight: '100vh', background: '#0a0a0a', padding: '32px', color: 'white' }}>Invalid platform</div>
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0c0c0c', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 24px', borderBottom: '1px solid #1f1f1f' }}>
-        <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', color: '#5a5a5a', cursor: 'pointer', fontSize: '14px' }}>← Back</button>
-        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <config.icon size={20} color="#0c0c0c" />
+    <div style={{ minHeight: '100vh', background: '#0a0a0a', padding: '24px' }}>
+      <button 
+        onClick={() => router.push('/dashboard')}
+        style={{ background: 'none', border: 'none', color: '#666666', cursor: 'pointer', fontSize: '13px', marginBottom: '16px' }}
+      >
+        ← Back to Dashboard
+      </button>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '32px' }}>
+        <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: `${config.color}26`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <config.icon size={20} color={config.color} />
         </div>
         <h1 style={{ color: 'white', fontSize: '20px', fontWeight: '500', margin: 0 }}>{config.name}</h1>
-      </header>
+      </div>
 
-      <div style={{ display: 'flex', flex: 1, gap: '24px', padding: '24px' }}>
-        <div style={{ flex: '0.6', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ background: '#141414', borderRadius: '16px', padding: '24px', border: '1px solid #1f1f1f' }}>
-            <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '500', margin: '0 0 20px' }}>AI Content Generator</h2>
+      <div style={{ display: 'flex', gap: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ flex: '0.65', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ background: '#111111', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '24px' }}>
+            <h2 style={{ color: 'white', fontSize: '16px', fontWeight: '500', margin: '0 0 20px' }}>Create your content</h2>
             
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>What do you want to post about?</label>
-              <input
-                type="text"
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ color: '#888888', fontSize: '12px', display: 'block', marginBottom: '8px' }}>
+                What do you want to post about?
+              </label>
+              <textarea
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
-                placeholder="Enter your topic..."
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', boxSizing: 'border-box' }}
+                placeholder="e.g. Launching our new AI product next week targeting developers..."
+                style={{ 
+                  width: '100%', 
+                  padding: '12px', 
+                  borderRadius: '8px', 
+                  border: '1px solid #1e1e1e', 
+                  background: '#0d0d0d', 
+                  color: 'white', 
+                  fontSize: '14px', 
+                  height: '100px',
+                  resize: 'vertical',
+                  boxSizing: 'border-box',
+                  fontFamily: 'inherit'
+                }}
               />
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Tone</label>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ color: '#888888', fontSize: '12px', display: 'block', marginBottom: '8px' }}>Tone</label>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {tones.map(t => (
                   <button
                     key={t}
                     onClick={() => setTone(t)}
-                    style={{ padding: '8px 16px', borderRadius: '9999px', border: tone === t ? '1px solid #ffffff' : '1px solid #1f1f1f', background: tone === t ? '#ffffff' : 'transparent', color: tone === t ? '#0c0c0c' : '#5a5a5a', fontSize: '14px', cursor: 'pointer' }}
+                    style={{ 
+                      padding: '6px 16px', 
+                      borderRadius: '20px', 
+                      border: tone === t ? '1px solid #7c3aed' : '1px solid #2a2a2a', 
+                      background: tone === t ? '#7c3aed' : '#1a1a1a', 
+                      color: tone === t ? 'white' : '#888888', 
+                      fontSize: '13px', 
+                      cursor: 'pointer',
+                      fontFamily: 'inherit'
+                    }}
                   >
                     {t}
                   </button>
@@ -184,100 +209,182 @@ export default function PlatformPage() {
               </div>
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Additional context (optional)</label>
-              <textarea
-                value={context}
-                onChange={e => setContext(e.target.value)}
-                placeholder="Any additional details..."
-                rows={3}
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
-              />
-            </div>
-
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ color: '#5a5a5a', fontSize: '14px', display: 'block', marginBottom: '8px' }}>Upload image (optional)</label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', borderRadius: '8px', border: '1px dashed #1f1f1f', color: '#5a5a5a', cursor: 'pointer' }}>
-                <Upload size={18} />
-                <span>Upload image (jpg, png, gif)</span>
-                <input type="file" accept="image/jpeg,image/png,image/gif" onChange={handleImageUpload} style={{ display: 'none' }} />
-              </label>
-              {imagePreview && (
-                <div style={{ marginTop: '12px', position: 'relative', display: 'inline-block' }}>
-                  <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', borderRadius: '8px' }} />
-                  <button onClick={() => { setImagePreview(null); setImageDesc('') }} style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#1f1f1f', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer' }}>×</button>
-                </div>
-              )}
-            </div>
-
             <button
               onClick={generateContent}
               disabled={loading || !topic.trim()}
-              style={{ width: '100%', padding: '14px', borderRadius: '9999px', border: 'none', background: '#f0f0f0', color: '#0c0c0c', fontSize: '15px', fontWeight: '500', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              style={{ 
+                width: '100%', 
+                height: '44px',
+                borderRadius: '8px', 
+                border: 'none', 
+                background: '#7c3aed', 
+                color: 'white', 
+                fontSize: '14px', 
+                cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                opacity: loading ? 0.7 : 1
+              }}
             >
-              {loading && <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} />}
-              Generate
+              {loading ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <Wand2 size={18} />}
+              {loading ? 'Generating...' : 'Generate with Vrixo AI'}
             </button>
           </div>
 
-          {content && (
-            <div style={{ background: '#141414', borderRadius: '16px', padding: '24px', border: '1px solid #1f1f1f' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <label style={{ color: '#5a5a5a', fontSize: '14px' }}>Generated Content ({content.length}/{config.charLimit})</label>
-                <button onClick={copyContent} style={{ background: 'none', border: 'none', color: '#5a5a5a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px' }}>
-                  {copied ? <Check size={14} /> : <Copy size={14} />}
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-              </div>
+          {showContent && content && (
+            <div style={{ background: '#111111', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '24px' }}>
+              <label style={{ color: '#888888', fontSize: '12px', display: 'block', marginBottom: '8px' }}>Generated Content</label>
               <textarea
                 value={content}
                 onChange={e => setContent(e.target.value)}
-                rows={6}
-                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '15px', resize: 'vertical', boxSizing: 'border-box' }}
+                style={{ 
+                  width: '100%', 
+                  padding: '12px', 
+                  borderRadius: '8px', 
+                  border: '1px solid #2a2a2a', 
+                  background: '#0d0d0d', 
+                  color: 'white', 
+                  fontSize: '14px', 
+                  minHeight: '150px',
+                  resize: 'vertical',
+                  boxSizing: 'border-box',
+                  fontFamily: 'inherit'
+                }}
               />
+              <div style={{ textAlign: 'right', marginTop: '4px', fontSize: '12px', color: '#666666' }}>
+                {content.length} / {config.charLimit}
+              </div>
+              
               <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
-                <button onClick={savePost} style={{ flex: 1, padding: '12px', borderRadius: '9999px', border: '1px solid #1f1f1f', background: 'transparent', color: 'white', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>
+                <button 
+                  onClick={savePost}
+                  style={{ 
+                    flex: 1, 
+                    padding: '12px', 
+                    borderRadius: '8px', 
+                    border: '1px solid #2a2a2a', 
+                    background: '#1a1a1a', 
+                    color: 'white', 
+                    fontSize: '14px', 
+                    cursor: 'pointer',
+                    fontFamily: 'inherit'
+                  }}
+                >
                   Save Post
                 </button>
-                <button onClick={publishPost} style={{ flex: 1, padding: '12px', borderRadius: '9999px', border: 'none', background: '#ffffff', color: '#0c0c0c', fontSize: '14px', fontWeight: '500', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                  <ExternalLink size={16} /> Publish to {config.name}
+                <button 
+                  onClick={postToPlatform}
+                  style={{ 
+                    flex: 1, 
+                    padding: '12px', 
+                    borderRadius: '8px', 
+                    border: 'none', 
+                    background: config.color, 
+                    color: 'white', 
+                    fontSize: '14px', 
+                    cursor: 'pointer',
+                    fontFamily: 'inherit'
+                  }}
+                >
+                  Post to {config.name}
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        <div style={{ flex: '0.4', background: '#141414', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', border: '1px solid #1f1f1f' }}>
-          <h2 style={{ color: 'white', fontSize: '18px', fontWeight: '500', margin: '0 0 16px' }}>AI Chatbot</h2>
-          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ flex: '0.35', background: '#111111', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ color: 'white', fontSize: '14px', fontWeight: '500', margin: '0 0 4px' }}>Vrixo AI Assistant</h3>
+          <p style={{ color: '#666666', fontSize: '12px', margin: '0 0 16px' }}>Get help with your {config.name} content</p>
+          
+          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', height: '400px' }}>
             {chatMessages.map((msg, i) => (
-              <div key={i} style={{ padding: '12px', borderRadius: '12px', background: msg.role === 'user' ? '#1f1f1f' : '#0c0c0c', alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '80%' }}>
-                <p style={{ color: 'white', fontSize: '14px', margin: 0 }}>{msg.content}</p>
+              <div 
+                key={i} 
+                style={{ 
+                  padding: '8px 12px', 
+                  borderRadius: '12px', 
+                  background: msg.role === 'user' ? '#7c3aed' : '#1a1a1a', 
+                  alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', 
+                  maxWidth: '85%',
+                  color: 'white',
+                  fontSize: '13px'
+                }}
+              >
+                {msg.content}
               </div>
             ))}
             {chatLoading && (
-              <div style={{ padding: '12px', borderRadius: '12px', background: '#0c0c0c', alignSelf: 'flex-start' }}>
-                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite', color: '#5a5a5a' }} />
+              <div style={{ padding: '8px 12px', borderRadius: '12px', background: '#1a1a1a', alignSelf: 'flex-start' }}>
+                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite', color: '#666666' }} />
               </div>
             )}
             <div ref={chatEndRef} />
           </div>
+          
           <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
             <input
               type="text"
               value={chatInput}
               onChange={e => setChatInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && sendChat()}
-              placeholder="Ask about your content..."
-              style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #1f1f1f', background: '#0c0c0c', color: 'white', fontSize: '14px' }}
+              placeholder="Ask Vrixo for help..."
+              style={{ 
+                flex: 1, 
+                padding: '10px', 
+                borderRadius: '8px', 
+                border: '1px solid #1e1e1e', 
+                background: '#0d0d0d', 
+                color: 'white', 
+                fontSize: '14px',
+                fontFamily: 'inherit'
+              }}
             />
-            <button onClick={sendChat} disabled={chatLoading || !chatInput.trim()} style={{ padding: '12px', borderRadius: '9999px', border: 'none', background: '#f0f0f0', color: '#0c0c0c', cursor: 'pointer' }}>
-              <Send size={18} />
+            <button 
+              onClick={sendChat} 
+              disabled={chatLoading || !chatInput.trim()}
+              style={{ 
+                padding: '10px 16px', 
+                borderRadius: '6px', 
+                border: 'none', 
+                background: '#7c3aed', 
+                color: 'white', 
+                cursor: 'pointer',
+                opacity: chatLoading || !chatInput.trim() ? 0.5 : 1
+              }}
+            >
+              <Send size={16} />
             </button>
           </div>
         </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
+      {toast && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: '#1a1a1a',
+          color: 'white',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          border: '1px solid #2a2a2a',
+          fontSize: '14px'
+        }}>
+          {toast}
+        </div>
+      )}
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 900px) {
+          div[style*="flex: '0.65'"] { flex: '1 1 100%' !important; }
+          div[style*="flex: '0.35'"] { flex: '1 1 100%' !important; }
+        }
+      `}</style>
     </div>
   )
 }

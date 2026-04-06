@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg-base: #0c0c0c;
-  --color-bg-surface: #1a1a1a;
-  --color-bg-elevated: #242424;
-  --color-bg-glass: rgba(12, 12, 12, 0.8);
+  --color-bg-base: #0a0a0a;
+  --color-bg-surface: #111111;
+  --color-bg-elevated: #1a1a1a;
+  --color-bg-glass: rgba(10, 10, 10, 0.8);
 
   --color-text-primary: #ffffff;
-  --color-text-secondary: #a1a1a1;
-  --color-text-muted: #5a5a5a;
+  --color-text-secondary: #888888;
+  --color-text-muted: #444444;
 
-  --color-border: #262626;
-  --color-border-subtle: #1f1f1f;
+  --color-border: #1e1e1e;
+  --color-border-subtle: #1a1a1a;
 
-  --color-accent: #d4ff00;
-  --color-accent-glow: rgba(212, 255, 0, 0.4);
+  --color-accent: #7c3aed;
+  --color-accent-glow: rgba(124, 58, 237, 0.4);
 }
 
 * {
@@ -42,7 +42,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 .card {
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 .card-bento {
@@ -76,9 +76,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-primary {
   background: var(--color-accent);
-  color: #0c0c0c;
+  color: white;
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
   padding: 12px 24px;
   font-weight: 600;
   font-size: 14px;
@@ -89,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 20px var(--color-accent-glow), 0 0 40px var(--color-accent-glow);
+  box-shadow: 0 0 20px var(--color-accent-glow);
   transform: translateY(-1px);
 }
 
@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
-  border-radius: 0;
+  border-radius: 8px;
   padding: 12px 24px;
   font-weight: 500;
   cursor: pointer;
@@ -115,7 +115,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
-  border-radius: 0;
+  border-radius: 8px;
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
 .input-field {
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0;
+  border-radius: 8px;
   padding: 14px 16px;
   color: var(--color-text-primary);
   font-family: inherit;
