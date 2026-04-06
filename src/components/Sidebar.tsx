@@ -76,7 +76,7 @@ export default function Sidebar() {
               backgroundClip: 'text',
             }}
           >
-            Rekall
+            Vrixo
           </span>
         </div>
       </div>

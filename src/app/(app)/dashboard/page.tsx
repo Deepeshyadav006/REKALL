@@ -62,9 +62,9 @@ export default function DashboardPage() {
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', borderBottom: '1px solid #222' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>R</span>
+            <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>V</span>
           </div>
-          <span style={{ color: 'white', fontSize: '20px', fontWeight: '600' }}>Rekall</span>
+          <span style={{ color: 'white', fontSize: '20px', fontWeight: '600' }}>Vrixo</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ color: '#666', fontSize: '14px' }}>{userEmail}</span>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
 
           <div onClick={() => router.push('/chat')} style={{ maxWidth: '600px', margin: '0 auto', background: '#111', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
             <MessageSquare size={20} color="#666" />
-            <span style={{ color: '#666', flex: 1 }}>Chat with Rekall...</span>
+            <span style={{ color: '#666', flex: 1 }}>Chat with Vrixo...</span>
             <button onClick={(e) => { e.stopPropagation(); router.push('/chat') }} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#7c3aed', color: 'white', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Send size={16} /> Send
             </button>

@@ -44,9 +44,9 @@ export default function LoginPage() {
     <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-          <span style={{ color: 'white', fontSize: '40px', fontWeight: 'bold' }}>R</span>
+          <span style={{ color: 'white', fontSize: '40px', fontWeight: 'bold' }}>V</span>
         </div>
-        <h1 style={{ fontSize: '36px', fontWeight: '700', color: 'white', margin: '0 0 8px' }}>Welcome to Rekall</h1>
+        <h1 style={{ fontSize: '36px', fontWeight: '700', color: 'white', margin: '0 0 8px' }}>Welcome to Vrixo</h1>
         <p style={{ color: '#888', fontSize: '16px', margin: 0 }}>Your AI-powered social media assistant</p>
       </div>
 

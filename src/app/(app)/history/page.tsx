@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Clock, FileText, MessageSquare } from 'lucide-react'
 
 export const metadata = {
-  title: 'History – Rekall',
+  title: 'History – Vrixo',
   description: 'View your past AI-generated content and conversations.',
 }
 
@@ -45,7 +45,7 @@ export default function HistoryPage() {
         </div>
         <h2 style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>No history yet</h2>
         <p style={{ color: 'var(--color-text-secondary)', margin: 0, maxWidth: '360px', lineHeight: '1.6' }}>
-          Your generated posts and AI chat sessions will appear here once you start using Rekall.
+          Your generated posts and AI chat sessions will appear here once you start using Vrixo.
         </p>
         <Link href="/dashboard" className="btn-primary" style={{ marginTop: '8px', textDecoration: 'none', padding: '10px 24px', display: 'inline-block' }}>
           Create your first post →

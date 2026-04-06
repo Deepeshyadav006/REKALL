@@ -36,7 +36,7 @@ export async function generateContent(prompt: string): Promise<string> {
   return callAI([{ role: 'user', content: prompt }])
 }
 
-export async function askRekall(userMessage: string, userId: string): Promise<string> {
+export async function askVrixo(userMessage: string, userId: string): Promise<string> {
   const supabase = await createClient()
 
   // Fetch last 10 chat messages for context
@@ -55,7 +55,7 @@ export async function askRekall(userMessage: string, userId: string): Promise<st
     .order('created_at', { ascending: false })
     .limit(5)
 
-  const systemPrompt = 'You are Rekall, an AI-powered social media assistant. Answer user questions concisely and helpfully.'
+  const systemPrompt = 'You are Vrixo, an AI-powered social media assistant. Answer user questions concisely and helpfully.'
 
   // Build message history for OpenRouter / DeepSeek
   interface MemoryRow {

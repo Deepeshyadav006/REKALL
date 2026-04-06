@@ -61,7 +61,7 @@ export default function ChatPage() {
         setMessages([
           {
             role: 'assistant',
-            content: "Hi! I'm Rekall AI, your social media assistant. Ask me anything — I can help you craft posts, develop strategies, write captions, and more! 🚀",
+            content: "Hi! I'm Vrixo AI, your social media assistant. Ask me anything — I can help you craft posts, develop strategies, write captions, and more! 🚀",
           },
         ])
       }
@@ -81,7 +81,7 @@ export default function ChatPage() {
     setMessages([
       {
         role: 'assistant',
-        content: "Hi! I'm Rekall AI, your social media assistant. Ask me anything — I can help you craft posts, develop strategies, write captions, and more! 🚀",
+        content: "Hi! I'm Vrixo AI, your social media assistant. Ask me anything — I can help you craft posts, develop strategies, write captions, and more! 🚀",
       },
     ])
   }
@@ -244,7 +244,7 @@ export default function ChatPage() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && sendMessage()}
-              placeholder="Ask Rekall AI anything about your social media strategy…"
+              placeholder="Ask Vrixo AI anything about your social media strategy…"
               disabled={loadingHistory}
               style={{ flex: 1, padding: '14px 16px', borderRadius: '8px', border: '1px solid #333', background: '#111', color: 'white', fontSize: '15px' }}
             />

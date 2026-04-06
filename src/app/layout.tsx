@@ -5,10 +5,10 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Rekall – AI-Powered Social Media Assistant",
+  title: "Vrixo – AI-Powered Social Media Assistant",
   description:
-    "Rekall helps you craft, schedule, and optimize social media content using the power of AI. Generate engaging posts, analyze performance, and grow your audience effortlessly.",
-  keywords: ["AI", "social media", "content creation", "assistant", "Rekall"],
+    "Vrixo helps you craft, schedule, and optimize social media content using the power of AI. Generate engaging posts, analyze performance, and grow your audience effortlessly.",
+  keywords: ["AI", "social media", "content creation", "assistant", "Vrixo"],
 };
 
 export default function RootLayout({

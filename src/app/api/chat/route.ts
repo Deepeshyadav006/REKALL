@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { askRekall, saveMemory } from '@/lib/gemini'
+import { askVrixo, saveMemory } from '@/lib/gemini'
 
 export async function POST(req: Request) {
   try {
@@ -14,8 +14,8 @@ export async function POST(req: Request) {
     }
 
     // Get AI response with full context (memory + posts)
-    console.log('Calling askRekall...')
-    const aiResponse = await askRekall(userMessage, userId)
+    console.log('Calling askVrixo...')
+    const aiResponse = await askVrixo(userMessage, userId)
     console.log('OpenRouter response:', aiResponse)
 
     // Persist both messages to memory table
